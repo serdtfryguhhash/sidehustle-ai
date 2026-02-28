@@ -17,6 +17,7 @@ import {
   PenTool,
   Sparkles,
 } from "lucide-react";
+import { StreakBadge } from "@/components/shared/StreakBadge";
 
 const navLinks = [
   {
@@ -104,6 +105,7 @@ export default function Navbar() {
 
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center gap-3">
+            <StreakBadge />
             <Link href="/login">
               <Button variant="ghost" size="sm">Log In</Button>
             </Link>
