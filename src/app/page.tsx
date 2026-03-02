@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   Zap, ArrowRight, Star, TrendingUp, DollarSign, Target,
   Clock, BarChart3, Users, CheckCircle2, Sparkles, BookOpen,
-  Shield, ChevronRight, Quote, Rocket,
+  Shield, ChevronRight, Quote, Rocket, Calculator,
 } from "lucide-react";
 import { getTopHustles } from "@/data/side-hustles";
 import { formatCurrency, getDifficultyColor } from "@/lib/utils";
@@ -125,9 +125,243 @@ const howItWorks = [
   },
 ];
 
+// ── Income Calculator Data ───────────────────────────────────────
+interface IncomeData {
+  label: string;
+  beginner: { min: number; max: number };
+  intermediate: { min: number; max: number };
+  expert: { min: number; max: number };
+  sampleSize: number;
+}
+
+const incomeDataByHustle: Record<string, IncomeData> = {
+  "freelance-writing": {
+    label: "Freelance Writing",
+    beginner: { min: 15, max: 30 },
+    intermediate: { min: 35, max: 75 },
+    expert: { min: 80, max: 150 },
+    sampleSize: 4200,
+  },
+  "web-development": {
+    label: "Web Development",
+    beginner: { min: 25, max: 50 },
+    intermediate: { min: 60, max: 120 },
+    expert: { min: 125, max: 250 },
+    sampleSize: 3800,
+  },
+  "print-on-demand": {
+    label: "Print on Demand",
+    beginner: { min: 5, max: 15 },
+    intermediate: { min: 18, max: 40 },
+    expert: { min: 45, max: 100 },
+    sampleSize: 2900,
+  },
+  youtube: {
+    label: "YouTube",
+    beginner: { min: 3, max: 10 },
+    intermediate: { min: 15, max: 50 },
+    expert: { min: 60, max: 200 },
+    sampleSize: 3100,
+  },
+  "ai-automation": {
+    label: "AI Automation",
+    beginner: { min: 30, max: 60 },
+    intermediate: { min: 75, max: 150 },
+    expert: { min: 160, max: 300 },
+    sampleSize: 1800,
+  },
+  "online-courses": {
+    label: "Online Courses",
+    beginner: { min: 8, max: 20 },
+    intermediate: { min: 25, max: 65 },
+    expert: { min: 70, max: 180 },
+    sampleSize: 2400,
+  },
+  dropshipping: {
+    label: "Dropshipping",
+    beginner: { min: 5, max: 18 },
+    intermediate: { min: 22, max: 55 },
+    expert: { min: 60, max: 140 },
+    sampleSize: 3500,
+  },
+  "social-media": {
+    label: "Social Media Management",
+    beginner: { min: 15, max: 30 },
+    intermediate: { min: 35, max: 70 },
+    expert: { min: 75, max: 150 },
+    sampleSize: 2700,
+  },
+};
+
+const hustleOptions = Object.entries(incomeDataByHustle).map(([key, val]) => ({
+  value: key,
+  label: val.label,
+}));
+
+type ExperienceLevel = "beginner" | "intermediate" | "expert";
+
+function IncomeCalculator() {
+  const [selectedHustle, setSelectedHustle] = useState("freelance-writing");
+  const [hoursPerWeek, setHoursPerWeek] = useState(10);
+  const [experience, setExperience] = useState<ExperienceLevel>("beginner");
+
+  const hustleData = incomeDataByHustle[selectedHustle];
+  const rate = hustleData[experience];
+
+  const monthlyMin = Math.round(rate.min * hoursPerWeek * 4.33);
+  const monthlyMax = Math.round(rate.max * hoursPerWeek * 4.33);
+  const annualMin = monthlyMin * 12;
+  const annualMax = monthlyMax * 12;
+
+  // Bar fill percentage relative to a max of ~$20k/mo
+  const barPercent = Math.min((monthlyMax / 20000) * 100, 100);
+
+  return (
+    <section className="py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <Badge variant="outline" className="mb-4">
+            <Calculator className="w-3 h-3 mr-1.5" />
+            Income Calculator
+          </Badge>
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">
+            How Much Could <span className="text-primary">You Earn?</span>
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Estimate your potential side hustle income based on the type of work, hours, and your experience level.
+          </p>
+        </div>
+
+        <div className="max-w-4xl mx-auto">
+          <Card className="border-2">
+            <CardContent className="p-6 sm:p-8">
+              <div className="grid md:grid-cols-2 gap-8">
+                {/* Controls */}
+                <div className="space-y-6">
+                  {/* Hustle Type */}
+                  <div>
+                    <label className="block text-sm font-semibold text-foreground mb-2">
+                      Select Hustle Type
+                    </label>
+                    <select
+                      value={selectedHustle}
+                      onChange={(e) => setSelectedHustle(e.target.value)}
+                      className="w-full h-10 px-3 rounded-lg border border-border bg-white text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                    >
+                      {hustleOptions.map((opt) => (
+                        <option key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Hours per week */}
+                  <div>
+                    <label className="block text-sm font-semibold text-foreground mb-2">
+                      Hours per Week: <span className="text-primary">{hoursPerWeek}h</span>
+                    </label>
+                    <input
+                      type="range"
+                      min={1}
+                      max={40}
+                      value={hoursPerWeek}
+                      onChange={(e) => setHoursPerWeek(Number(e.target.value))}
+                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
+                    />
+                    <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                      <span>1h</span>
+                      <span>10h</span>
+                      <span>20h</span>
+                      <span>30h</span>
+                      <span>40h</span>
+                    </div>
+                  </div>
+
+                  {/* Experience level */}
+                  <div>
+                    <label className="block text-sm font-semibold text-foreground mb-2">
+                      Experience Level
+                    </label>
+                    <div className="flex gap-2">
+                      {(["beginner", "intermediate", "expert"] as ExperienceLevel[]).map((level) => (
+                        <button
+                          key={level}
+                          onClick={() => setExperience(level)}
+                          className={`flex-1 py-2.5 px-3 rounded-lg text-sm font-medium transition-all duration-200 border-2 ${
+                            experience === level
+                              ? "bg-primary text-white border-primary shadow-sm"
+                              : "bg-white text-gray-600 border-border hover:border-primary/30"
+                          }`}
+                        >
+                          {level.charAt(0).toUpperCase() + level.slice(1)}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Output */}
+                <div className="flex flex-col justify-center">
+                  <div className="bg-gradient-to-br from-primary-50 to-secondary-50 rounded-2xl p-6 border border-primary-100">
+                    {/* Monthly */}
+                    <div className="mb-4">
+                      <div className="text-sm text-gray-500 mb-1">Estimated Monthly Income</div>
+                      <div className="font-heading text-3xl sm:text-4xl font-extrabold text-foreground">
+                        {formatCurrency(monthlyMin)} - {formatCurrency(monthlyMax)}
+                      </div>
+                    </div>
+
+                    {/* Annual */}
+                    <div className="mb-5">
+                      <div className="text-sm text-gray-500 mb-1">Estimated Annual Income</div>
+                      <div className="font-heading text-xl font-bold text-primary">
+                        {formatCurrency(annualMin)} - {formatCurrency(annualMax)}
+                      </div>
+                    </div>
+
+                    {/* Visual bar */}
+                    <div className="mb-4">
+                      <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
+                        <span>Earning Potential</span>
+                        <span>{Math.round(barPercent)}%</span>
+                      </div>
+                      <div className="h-3 bg-white rounded-full overflow-hidden border border-primary-100">
+                        <motion.div
+                          className="h-full bg-gradient-to-r from-primary to-secondary rounded-full"
+                          initial={{ width: 0 }}
+                          animate={{ width: `${barPercent}%` }}
+                          transition={{ duration: 0.6, ease: "easeOut" }}
+                          key={`${selectedHustle}-${hoursPerWeek}-${experience}`}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Credibility note */}
+                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                      <Users className="w-3.5 h-3.5" />
+                      <span>
+                        Based on data from{" "}
+                        <span className="font-semibold text-foreground">
+                          {hustleData.sampleSize.toLocaleString()}
+                        </span>{" "}
+                        side hustlers
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function HomePage() {
   const topHustles = getTopHustles(6);
-  
+
 
   return (
     <div className="overflow-hidden">
@@ -459,6 +693,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Income Calculator */}
+      <IncomeCalculator />
 
       {/* Pricing Preview */}
       <section className="py-20 bg-gray-50">

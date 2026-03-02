@@ -16,6 +16,7 @@ import {
   Wrench,
   PenTool,
   Sparkles,
+  GitCompareArrows,
 } from "lucide-react";
 import { StreakBadge } from "@/components/shared/StreakBadge";
 
@@ -27,9 +28,12 @@ const navLinks = [
     children: [
       { label: "Browse Side Hustles", href: "/hustles", icon: BookOpen, description: "Explore 100+ side hustle ideas" },
       { label: "Take the Quiz", href: "/quiz", icon: Zap, description: "Find your perfect match in 2 minutes" },
+      { label: "Compare Hustles", href: "/compare", icon: GitCompareArrows, description: "Side-by-side hustle comparison" },
       { label: "Trending Now", href: "/hustles?filter=trending", icon: BarChart3, description: "See what is hot right now" },
     ],
   },
+  { label: "Take the Quiz", href: "/quiz", icon: Zap },
+  { label: "Compare", href: "/compare", icon: GitCompareArrows },
   { label: "Tools", href: "/tools", icon: Wrench },
   { label: "Community", href: "/community", icon: Users },
   { label: "Blog", href: "/blog", icon: PenTool },
