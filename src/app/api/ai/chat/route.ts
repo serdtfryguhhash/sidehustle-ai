@@ -4,7 +4,7 @@ import { chat, matchSideHustles, generatePlaybook, getIncomeAdvice } from "@/lib
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { action, message, quizAnswers, hustleName, userProfile, currentIncome } = body;
+    const { action, message, quizAnswers, hustleName, userProfile, currentIncome, memoryContext } = body;
 
     let response: string;
 
@@ -19,15 +19,17 @@ export async function POST(request: NextRequest) {
         response = await getIncomeAdvice(hustleName, currentIncome);
         break;
       case "chat":
-      default:
+      default: {
+        const systemPrompt = `You are SideHustle.ai's AI advisor. Help users discover and grow side hustles. Be specific and actionable. Reference the user's specific data when available to give personalized scaling advice.
+
+${memoryContext || ""}`;
+
         response = await chat([
-          {
-            role: "system",
-            content: "You are SideHustle.ai's AI advisor. Help users discover and grow side hustles. Be specific and actionable.",
-          },
+          { role: "system", content: systemPrompt },
           { role: "user", content: message },
         ]);
         break;
+      }
     }
 
     return NextResponse.json({ success: true, response });

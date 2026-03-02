@@ -9,18 +9,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
   DollarSign, TrendingUp, Plus,
-  BarChart3, PieChart, ArrowUpRight, Target, Flame, X,
+  PieChart, Target, Flame, X, Share2,
 } from "lucide-react";
 import { formatCurrencyDetailed } from "@/lib/utils";
-
-const mockMonthlyData = [
-  { month: "Sep", amount: 450 },
-  { month: "Oct", amount: 780 },
-  { month: "Nov", amount: 1100 },
-  { month: "Dec", amount: 950 },
-  { month: "Jan", amount: 1400 },
-  { month: "Feb", amount: 1850 },
-];
+import { RevenueDashboard } from "@/components/features/revenue-dashboard";
+import { ShareCard } from "@/components/shared/ShareCard";
 
 const mockIncomeLogs = [
   { id: "1", hustle_name: "Freelance Writing", amount: 350, source: "Blog post for TechCo", date: "2026-02-25", notes: "Monthly retainer payment" },
@@ -33,6 +26,7 @@ const mockIncomeLogs = [
 
 export default function IncomePage() {
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showShareCard, setShowShareCard] = useState(false);
   const [newEntry, setNewEntry] = useState({
     hustle_name: "",
     amount: "",
@@ -43,9 +37,8 @@ export default function IncomePage() {
 
   const thisMonth = 1850;
   const lastMonth = 1400;
-  const totalEarned = mockMonthlyData.reduce((acc, m) => acc + m.amount, 0);
+  const totalEarned = 6530;
   const monthlyChange = ((thisMonth - lastMonth) / lastMonth * 100).toFixed(0);
-  const maxAmount = Math.max(...mockMonthlyData.map((m) => m.amount));
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -56,10 +49,16 @@ export default function IncomePage() {
               <h1 className="font-heading text-3xl font-bold text-foreground mb-1">Income Tracker</h1>
               <p className="text-muted-foreground">Track your side hustle earnings and watch your wealth grow</p>
             </div>
-            <Button onClick={() => setShowAddForm(true)} className="gap-1.5">
-              <Plus className="w-4 h-4" />
-              Log Income
-            </Button>
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={() => setShowShareCard(!showShareCard)} className="gap-1.5">
+                <Share2 className="w-4 h-4" />
+                Share
+              </Button>
+              <Button onClick={() => setShowAddForm(true)} className="gap-1.5">
+                <Plus className="w-4 h-4" />
+                Log Income
+              </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -88,33 +87,27 @@ export default function IncomePage() {
           ))}
         </div>
 
+        {/* Share Card */}
+        {showShareCard && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mb-8"
+          >
+            <ShareCard
+              monthlyIncome={thisMonth}
+              hustleName="Freelance Writing"
+              streakCount={12}
+              level="Hustler"
+            />
+          </motion.div>
+        )}
+
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
-            {/* Chart */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <BarChart3 className="w-5 h-5 text-primary" />
-                  Monthly Earnings
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-end gap-3 h-48">
-                  {mockMonthlyData.map((month) => (
-                    <div key={month.month} className="flex-1 flex flex-col items-center gap-2">
-                      <span className="text-xs font-medium text-foreground">${month.amount}</span>
-                      <motion.div
-                        className="w-full bg-gradient-to-t from-primary to-primary-400 rounded-t-lg"
-                        initial={{ height: 0 }}
-                        animate={{ height: `${(month.amount / maxAmount) * 100}%` }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                      />
-                      <span className="text-xs text-muted-foreground">{month.month}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            {/* Revenue Dashboard */}
+            <RevenueDashboard />
 
             {/* Income Log */}
             <Card>
@@ -195,14 +188,14 @@ export default function IncomePage() {
                     { label: "$100 Earned", achieved: true },
                     { label: "$500 Earned", achieved: true },
                     { label: "$1,000 Earned", achieved: true },
-                    { label: "$5,000 Earned", achieved: false },
+                    { label: "$5,000 Earned", achieved: true },
                     { label: "$10,000 Earned", achieved: false },
                   ].map((m) => (
                     <div key={m.label} className="flex items-center gap-2">
                       <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
                         m.achieved ? "bg-primary text-white" : "bg-gray-200"
                       }`}>
-                        {m.achieved && <ArrowUpRight className="w-3 h-3" />}
+                        {m.achieved && <TrendingUp className="w-3 h-3" />}
                       </div>
                       <span className={`text-sm ${m.achieved ? "font-medium" : "text-muted-foreground"}`}>{m.label}</span>
                     </div>

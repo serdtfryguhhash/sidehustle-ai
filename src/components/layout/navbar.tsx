@@ -17,6 +17,7 @@ import {
   PenTool,
   Sparkles,
   GitCompareArrows,
+  TreePine,
 } from "lucide-react";
 import { StreakBadge } from "@/components/shared/StreakBadge";
 
@@ -34,6 +35,7 @@ const navLinks = [
   },
   { label: "Take the Quiz", href: "/quiz", icon: Zap },
   { label: "Compare", href: "/compare", icon: GitCompareArrows },
+  { label: "Skills", href: "/skills", icon: TreePine },
   { label: "Tools", href: "/tools", icon: Wrench },
   { label: "Community", href: "/community", icon: Users },
   { label: "Blog", href: "/blog", icon: PenTool },

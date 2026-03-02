@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -14,17 +14,17 @@ import {
 } from "lucide-react";
 import { sideHustles } from "@/data/side-hustles";
 import { formatCurrency } from "@/lib/utils";
+import { awardXP } from "@/lib/gamification";
+import { XPBar } from "@/components/shared/XPBar";
+import { DailyTasks } from "@/components/features/daily-tasks";
+import { RevenueDashboard } from "@/components/features/revenue-dashboard";
+import { MilestoneTracker } from "@/components/features/milestone-tracker";
+import { WeeklyReport } from "@/components/features/weekly-report";
+import { HustleStreak } from "@/components/features/hustle-streak";
 
 const mockUserHustles = [
   { hustle: sideHustles[0], status: "active" as const, progress: 65, totalEarned: 1250, currentStep: 3 },
   { hustle: sideHustles[6], status: "starting" as const, progress: 20, totalEarned: 0, currentStep: 1 },
-];
-
-const mockBadges = [
-  { name: "First Dollar", icon: "DollarSign", earned: true, description: "Earned your first dollar" },
-  { name: "Week Streak", icon: "Flame", earned: true, description: "7-day logging streak" },
-  { name: "Century Club", icon: "Trophy", earned: false, description: "Earn $100 in a month" },
-  { name: "Hustler", icon: "Zap", earned: false, description: "Start your first side hustle" },
 ];
 
 const mockRecentActivity = [
@@ -35,6 +35,10 @@ const mockRecentActivity = [
 ];
 
 export default function DashboardPage() {
+  useEffect(() => {
+    awardXP("daily_visit");
+  }, []);
+
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Header */}
@@ -66,6 +70,11 @@ export default function DashboardPage() {
       </section>
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* XP Bar */}
+        <div className="mb-6">
+          <XPBar />
+        </div>
+
         {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {[
@@ -99,6 +108,12 @@ export default function DashboardPage() {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
+            {/* Daily Tasks */}
+            <DailyTasks />
+
+            {/* Revenue Dashboard */}
+            <RevenueDashboard />
+
             {/* Active Hustles */}
             <Card>
               <CardHeader>
@@ -177,35 +192,14 @@ export default function DashboardPage() {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Badges */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Award className="w-5 h-5 text-accent" />
-                  Badges
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-3">
-                  {mockBadges.map((badge) => (
-                    <div
-                      key={badge.name}
-                      className={`text-center p-3 rounded-xl border ${
-                        badge.earned ? "bg-accent-50 border-accent/20" : "bg-gray-50 border-border opacity-50"
-                      }`}
-                    >
-                      <div className={`w-10 h-10 rounded-full mx-auto mb-2 flex items-center justify-center ${
-                        badge.earned ? "bg-accent text-white" : "bg-gray-200 text-gray-400"
-                      }`}>
-                        {badge.earned ? <Star className="w-5 h-5" /> : <Star className="w-5 h-5" />}
-                      </div>
-                      <div className="text-xs font-medium">{badge.name}</div>
-                      <div className="text-[10px] text-muted-foreground">{badge.description}</div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            {/* Weekly Report */}
+            <WeeklyReport />
+
+            {/* Hustle Streak */}
+            <HustleStreak />
+
+            {/* Milestones */}
+            <MilestoneTracker />
 
             {/* Quick Actions */}
             <Card>
@@ -216,8 +210,8 @@ export default function DashboardPage() {
                 {[
                   { label: "Log Income", href: "/income", icon: DollarSign },
                   { label: "Take Quiz", href: "/quiz", icon: Zap },
-                  { label: "Browse Tools", href: "/tools", icon: Target },
-                  { label: "Community", href: "/community", icon: Star },
+                  { label: "Skill Tree", href: "/skills", icon: Star },
+                  { label: "Community", href: "/community", icon: Award },
                 ].map((action) => (
                   <Link
                     key={action.label}
