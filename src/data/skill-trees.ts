@@ -1,5 +1,5 @@
 // ============================================================
-// SideHustle.ai — Skill Tree Definitions
+// SideHustle.ai - Skill Tree Definitions
 // ============================================================
 
 export interface SkillNode {

@@ -1,5 +1,5 @@
 /**
- * SideHustle.ai — AI Client powered by Anthropic Claude SDK
+ * SideHustle.ai - AI Client powered by Anthropic Claude SDK
  *
  * Uses Claude claude-sonnet-4-20250514 via the Anthropic API
  */
@@ -43,7 +43,7 @@ export async function chat(
     return "No response generated.";
   } catch (error) {
     if (error instanceof Anthropic.APIError) {
-      throw new Error(`Anthropic API error: ${error.status} — ${error.message}`);
+      throw new Error(`Anthropic API error: ${error.status} - ${error.message}`);
     }
     throw error;
   }

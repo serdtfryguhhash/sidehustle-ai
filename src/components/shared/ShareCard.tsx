@@ -104,7 +104,7 @@ export function ShareCard({
 
           {/* Footer */}
           <div className="text-center text-[10px] text-gray-500 relative">
-            sidehustle.ai — Discover your perfect side hustle
+            sidehustle.ai - Discover your perfect side hustle
           </div>
         </CardContent>
       </Card>

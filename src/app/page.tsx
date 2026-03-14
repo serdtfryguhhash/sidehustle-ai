@@ -377,7 +377,7 @@ export default function HomePage() {
             >
               <Badge className="mb-6 px-4 py-1.5 text-sm bg-primary-100 text-primary border-primary-200">
                 <Sparkles className="w-3.5 h-3.5 mr-1.5" />
-                Powered by AI — Trusted by 25,000+ hustlers
+                Powered by AI - Trusted by 25,000+ hustlers
               </Badge>
             </motion.div>
 

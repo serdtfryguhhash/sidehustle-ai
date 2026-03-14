@@ -4,7 +4,7 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: 1,
     question: "How much time can you dedicate to a side hustle each week?",
-    subtitle: "Be honest — consistency matters more than volume",
+    subtitle: "Be honest - consistency matters more than volume",
     type: "single",
     options: [
       { id: "time-1", label: "1-5 hours", value: "minimal", icon: "Clock", description: "A few hours on weekends" },
@@ -19,7 +19,7 @@ export const quizQuestions: QuizQuestion[] = [
     subtitle: "Some hustles need zero dollars, others need seed capital",
     type: "single",
     options: [
-      { id: "budget-1", label: "$0 — Zero investment", value: "zero", icon: "DollarSign", description: "Free to start" },
+      { id: "budget-1", label: "$0 - Zero investment", value: "zero", icon: "DollarSign", description: "Free to start" },
       { id: "budget-2", label: "$1-100", value: "low", icon: "DollarSign", description: "Coffee money" },
       { id: "budget-3", label: "$100-1,000", value: "medium", icon: "DollarSign", description: "Moderate investment" },
       { id: "budget-4", label: "$1,000+", value: "high", icon: "DollarSign", description: "Ready to invest seriously" },
@@ -28,7 +28,7 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: 3,
     question: "What skills do you already have?",
-    subtitle: "Select all that apply — we will match you to hustles that leverage your strengths",
+    subtitle: "Select all that apply - we will match you to hustles that leverage your strengths",
     type: "multiple",
     options: [
       { id: "skill-1", label: "Writing & Communication", value: "writing", icon: "PenTool" },
@@ -95,9 +95,9 @@ export const quizQuestions: QuizQuestion[] = [
     subtitle: "Are you willing to invest time and money with uncertain returns?",
     type: "single",
     options: [
-      { id: "risk-1", label: "Play it safe — guaranteed income", value: "low", icon: "Shield", description: "Steady and predictable" },
-      { id: "risk-2", label: "Moderate — calculated risks", value: "moderate", icon: "Shield", description: "Smart bets" },
-      { id: "risk-3", label: "High — big swings, big wins", value: "high", icon: "Rocket", description: "Go big or go home" },
+      { id: "risk-1", label: "Play it safe - guaranteed income", value: "low", icon: "Shield", description: "Steady and predictable" },
+      { id: "risk-2", label: "Moderate - calculated risks", value: "moderate", icon: "Shield", description: "Smart bets" },
+      { id: "risk-3", label: "High - big swings, big wins", value: "high", icon: "Rocket", description: "Go big or go home" },
     ],
   },
   {
@@ -108,7 +108,7 @@ export const quizQuestions: QuizQuestion[] = [
     options: [
       { id: "passive-1", label: "Passive income all the way", value: "passive", icon: "Moon", description: "Set it and forget it" },
       { id: "passive-2", label: "Mix of both", value: "mix", icon: "Sun", description: "Best of both worlds" },
-      { id: "passive-3", label: "Active is fine — I want fast results", value: "active", icon: "Zap", description: "Hustle mode" },
+      { id: "passive-3", label: "Active is fine - I want fast results", value: "active", icon: "Zap", description: "Hustle mode" },
     ],
   },
   {

@@ -1,7 +1,7 @@
 "use client";
 
 // ============================================================
-// SideHustle.ai — Gamification & XP System
+// SideHustle.ai - Gamification & XP System
 // ============================================================
 
 const GAMIFICATION_KEY = "app_gamification";

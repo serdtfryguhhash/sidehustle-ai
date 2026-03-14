@@ -1,5 +1,5 @@
 // ============================================================
-// SideHustle.ai — Complete Type Definitions
+// SideHustle.ai - Complete Type Definitions
 // ============================================================
 
 export interface User {

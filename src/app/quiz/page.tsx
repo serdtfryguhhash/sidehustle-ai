@@ -56,7 +56,7 @@ const quizSteps: QuizStep[] = [
   {
     id: 1,
     question: "How many hours per week can you dedicate?",
-    subtitle: "Be honest — consistency matters more than volume",
+    subtitle: "Be honest - consistency matters more than volume",
     type: "single",
     options: [
       { id: "h1", label: "1-5 hours", value: "1-5", icon: Clock, description: "A few hours on weekends" },
@@ -80,7 +80,7 @@ const quizSteps: QuizStep[] = [
   {
     id: 3,
     question: "What are your top skills?",
-    subtitle: "Select all that apply — we'll match hustles to your strengths",
+    subtitle: "Select all that apply - we'll match hustles to your strengths",
     type: "multiple",
     options: [
       { id: "s1", label: "Writing", value: "writing", icon: PenTool },

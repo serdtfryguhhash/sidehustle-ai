@@ -1,7 +1,7 @@
 "use client";
 
 // ============================================================
-// SideHustle.ai — AI Coach Memory System
+// SideHustle.ai - AI Coach Memory System
 // Accumulates user context for personalized AI coaching
 // ============================================================
 
